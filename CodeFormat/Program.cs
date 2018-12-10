@@ -19,7 +19,7 @@ namespace CodeFormat
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("Usage: CodeFormat [PathTo File or Folder]");
+                Console.WriteLine("Usage: CodeFormat [Path to File or Folder]");
                 return -1;
             }
 
@@ -42,6 +42,7 @@ namespace CodeFormat
             else
             {
                 Console.WriteLine($"Error: \"{path}\" was not a directory or a C# class file.");
+                Console.WriteLine("Usage: CodeFormat [Path to File or Folder]");
                 return -1;
             }
 
