@@ -8,8 +8,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace CodeFormat.Rules
 {
     /// <summary>
-    ///  Rewrite if statements which have a single following statement so that they have a surrounding block but
-    ///  are still formatted on a single line.
+    ///  Rewrite if statements which have a single following statement so that they look like:
+    ///  if (condition) { statment; }
     /// </summary>
     public class SingleLineIfBracesRule : CSharpSyntaxRewriter
     {
@@ -21,8 +21,14 @@ namespace CodeFormat.Rules
             if (statementSyntax != null && statementSyntax.Kind() != SyntaxKind.Block)
             {
                 StatementSyntax formattedStatement = statementSyntax.WithLeadingTrivia(SyntaxFactory.Space).WithTrailingTrivia(SyntaxFactory.Space);
-                BlockSyntax singleLineBlock = SyntaxFactory.Block(formattedStatement).WithoutLeadingTrivia().WithTrailingTrivia(SyntaxFactory.CarriageReturnLineFeed);
-                return ifNode.ReplaceNode(statementSyntax, singleLineBlock);
+                BlockSyntax singleLineBlock = SyntaxFactory.Block(formattedStatement).WithLeadingTrivia(SyntaxFactory.Space).WithTrailingTrivia(SyntaxFactory.CarriageReturnLineFeed);
+
+                return ifNode
+                    .ReplaceNode(statementSyntax, singleLineBlock)
+                    .WithCondition(ifNode.Condition.WithoutTrivia())
+                    .WithIfKeyword(ifNode.IfKeyword.WithTrailingTrivia())
+                    .WithOpenParenToken(ifNode.OpenParenToken.WithoutTrivia().WithLeadingTrivia(SyntaxFactory.Space))
+                    .WithCloseParenToken(ifNode.CloseParenToken.WithoutTrivia());
             }
             else
             {

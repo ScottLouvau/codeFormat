@@ -19,6 +19,8 @@ namespace Sample
         {
             if (args.Length == 0) { return -1; }
 
+            if (args.Length == 1) { return -2; }
+
             string path = args[0];
             if (Directory.Exists(path))
             {

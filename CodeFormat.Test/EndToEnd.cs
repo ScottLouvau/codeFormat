@@ -1,6 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System.IO;
 using System.Text;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CodeFormat.Test
 {
